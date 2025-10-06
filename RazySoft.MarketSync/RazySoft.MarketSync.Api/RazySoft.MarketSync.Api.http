@@ -1,0 +1,6 @@
+@RazySoft.MarketSync.Api_HostAddress = http://localhost:5108
+
+GET {{RazySoft.MarketSync.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

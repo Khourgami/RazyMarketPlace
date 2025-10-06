@@ -1,0 +1,98 @@
+﻿@page
+@model RazySoft.MarketSync.AdminWeb.Pages.IndexModel
+@{
+    ViewData["Title"] = "MarketSync Admin";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3">MarketSync Admin</h1>
+        <div>
+            <form method="post" asp-page-handler="RunSync" class="d-inline">
+                <button id="btnRun" class="btn btn-primary" type="submit" disabled="@(Model.IsBusy ? "disabled" : null)">
+                    @if (Model.IsBusy)
+                    {
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="ms-2">Running...</span>
+                    }
+                    else
+                    {
+                        <i class="bi bi-play-fill"></i>
+                        <span class="ms-2">Run Sync Now</span>
+                    }
+                </button>
+            </form>
+
+            <form method="post" asp-page-handler="Refresh" class="d-inline ms-2">
+                <button class="btn btn-outline-secondary">Refresh</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header">Status</div>
+                <div class="card-body">
+                    @if (Model.Status == null)
+                    {
+                        <div class="text-muted">Unable to get status from service.</div>
+                    }
+                    else
+                    {
+                        <p>
+                            <strong>Running:</strong>
+                            <span class="badge @(Model.Status.IsRunning ? "bg-success" : "bg-secondary")">
+                                @(Model.Status.IsRunning ? "True" : "False")
+                            </span>
+                        </p>
+                        <p><strong>Last run:</strong> @(Model.Status.LastRun?.ToString("yyyy-MM-dd HH:mm:ss") ?? "n/a")</p>
+                        <p>
+                            <strong>Last result:</strong>
+                            <span class="badge @(Model.Status.LastRunSuccess ? "bg-success" : "bg-danger")">
+                                @(Model.Status.LastRunSuccess ? "Success" : "Failed")
+                            </span>
+                        </p>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Control</div>
+                <div class="card-body">
+                    <form method="post" asp-page-handler="RunSync">
+                        <button class="btn btn-primary w-100" type="submit" @(Model.IsBusy ? "disabled" : "")>Run Sync Now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Logs (last @(Model.LogLines?.Count ?? 0))</span>
+                    <form method="post" asp-page-handler="Refresh">
+                        <button class="btn btn-sm btn-outline-secondary">Refresh</button>
+                    </form>
+                </div>
+                <div class="card-body">
+                    @if (Model.LogLines == null)
+                    {
+                        <div class="text-muted">Cannot fetch logs.</div>
+                    }
+                    else if (!Model.LogLines.Any())
+                    {
+                        <div class="text-muted">No log lines.</div>
+                    }
+                    else
+                    {
+                        <pre style="max-height: 60vh; overflow:auto; white-space:pre-wrap;">@string.Join("\n", Model.LogLines)</pre>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

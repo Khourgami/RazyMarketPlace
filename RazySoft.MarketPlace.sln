@@ -1,0 +1,81 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36109.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.MarketSync.Core", "RazySoft.MarketSync\RazySoft.MarketSync.Core\RazySoft.MarketSync.Core.csproj", "{A5D06902-4681-EE34-A2F2-8ED1C0F719C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RazySoft.MarketSync", "RazySoft.MarketSync", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.MarketSync.Infrastructure", "RazySoft.MarketSync\RazySoft.MarketSync.Infrastructure\RazySoft.MarketSync.Infrastructure.csproj", "{80AA9FA2-798C-0569-0CF1-4B575E7FAFCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.MarketSync.Service", "RazySoft.MarketSync\RazySoft.MarketSync.Service\RazySoft.MarketSync.Service.csproj", "{79361B67-F0C2-423E-FDED-16059A6AD77F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.MarketSync.Api", "RazySoft.MarketSync\RazySoft.MarketSync.Api\RazySoft.MarketSync.Api.csproj", "{083BEB9E-99D2-AA2C-842B-EA92BBE11422}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.MarketSync.Domain", "RazySoft.MarketSync\RazySoft.MarketSync.Domain\RazySoft.MarketSync.Domain.csproj", "{6B5A2529-57B5-13DC-F3AB-8137F444EA7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.MarketSync.AdminWeb", "RazySoft.MarketSync\RazySoft.MarketSync.AdminWeb\RazySoft.MarketSync.AdminWeb.csproj", "{EBED0416-A95C-4B6A-A079-13FF3E7B0B00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RazySoftMarketAdmin", "RazySoftMarketAdmin", "{FD006C26-41AC-44E0-92AC-48E2A08F19D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.Market.Admin.Domain", "RazySoftMarketAdmin\RazySoft.Market.Admin.Domain\RazySoft.Market.Admin.Domain.csproj", "{B245EB75-70E1-40A6-4A62-1F32D9D485D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.MarketSync.DebugService", "RazySoft.MarketSync\RazySoft.MarketSync.DebugService\RazySoft.MarketSync.DebugService.csproj", "{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5D06902-4681-EE34-A2F2-8ED1C0F719C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D06902-4681-EE34-A2F2-8ED1C0F719C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D06902-4681-EE34-A2F2-8ED1C0F719C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D06902-4681-EE34-A2F2-8ED1C0F719C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80AA9FA2-798C-0569-0CF1-4B575E7FAFCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80AA9FA2-798C-0569-0CF1-4B575E7FAFCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80AA9FA2-798C-0569-0CF1-4B575E7FAFCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80AA9FA2-798C-0569-0CF1-4B575E7FAFCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79361B67-F0C2-423E-FDED-16059A6AD77F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79361B67-F0C2-423E-FDED-16059A6AD77F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79361B67-F0C2-423E-FDED-16059A6AD77F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79361B67-F0C2-423E-FDED-16059A6AD77F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{083BEB9E-99D2-AA2C-842B-EA92BBE11422}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{083BEB9E-99D2-AA2C-842B-EA92BBE11422}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{083BEB9E-99D2-AA2C-842B-EA92BBE11422}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{083BEB9E-99D2-AA2C-842B-EA92BBE11422}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B5A2529-57B5-13DC-F3AB-8137F444EA7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B5A2529-57B5-13DC-F3AB-8137F444EA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B5A2529-57B5-13DC-F3AB-8137F444EA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B5A2529-57B5-13DC-F3AB-8137F444EA7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBED0416-A95C-4B6A-A079-13FF3E7B0B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBED0416-A95C-4B6A-A079-13FF3E7B0B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBED0416-A95C-4B6A-A079-13FF3E7B0B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBED0416-A95C-4B6A-A079-13FF3E7B0B00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B245EB75-70E1-40A6-4A62-1F32D9D485D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B245EB75-70E1-40A6-4A62-1F32D9D485D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B245EB75-70E1-40A6-4A62-1F32D9D485D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B245EB75-70E1-40A6-4A62-1F32D9D485D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A5D06902-4681-EE34-A2F2-8ED1C0F719C2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{80AA9FA2-798C-0569-0CF1-4B575E7FAFCF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{79361B67-F0C2-423E-FDED-16059A6AD77F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{083BEB9E-99D2-AA2C-842B-EA92BBE11422} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6B5A2529-57B5-13DC-F3AB-8137F444EA7D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{EBED0416-A95C-4B6A-A079-13FF3E7B0B00} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{B245EB75-70E1-40A6-4A62-1F32D9D485D0} = {FD006C26-41AC-44E0-92AC-48E2A08F19D2}
+		{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B3B2CBD-206D-4BCE-A97B-2DF91696A8FF}
+	EndGlobalSection
+EndGlobal
