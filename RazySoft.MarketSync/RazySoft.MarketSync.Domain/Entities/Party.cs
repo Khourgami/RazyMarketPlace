@@ -2,18 +2,40 @@
 
 namespace RazySoft.MarketSync.Domain.Entities
 {
+    /// <summary>
+    /// موجودیت مربوط به طرف‌های تجاری (MoeinAcc)
+    /// </summary>
     public class Party : BaseEntity
     {
+        /// <summary>
+        /// کلید ترکیبی از سیستم قدیمی — برای ارتباط با داده‌های Legacy
+        /// </summary>
+        public int FkColCode { get; set; }
+        public int MoeinCode { get; set; }
 
-        // Legacy composite key parts from MoeinAcc
-        public int FkColCode { get; set; }       // fk_ColCode
-        public int MoeinCode { get; set; }       // MoeinCode
-        // National code (could be national id or company register code)
+        /// <summary>
+        /// کد شناسایی ملی یا کد ثبت شرکت (ممکن است null باشد)
+        /// </summary>
         public string? NationalId { get; set; }
-        public Guid TenantId {  get; set; }
 
-        // Name (MoeinName in legacy)
+        /// <summary>
+        /// نام فرد یا شرکت
+        /// </summary>
         public string Name { get; set; } = string.Empty;
 
+        /// <summary>
+        /// شماره تلفن یا موبایل
+        /// </summary>
+        public string? Mobile { get; set; }
+
+        /// <summary>
+        /// آدرس
+        /// </summary>
+        public string? Address { get; set; }
+
+        /// <summary>
+        /// شناسه نرمال‌شده برای ارتباط با داده‌های legacy (مثلاً "fk-moein")
+        /// </summary>
+        public string NormalizedLegacyId { get; set; } = string.Empty;
     }
 }

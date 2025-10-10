@@ -1,6 +1,11 @@
-﻿using System;
+﻿using RazySoft.Market.Admin.Domain.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace RazySoft.MarketSync.Domain.Entities
+namespace RazySoft.Market.Admin.Domain.Entities
 {
     /// <summary>
     /// آیتم فروش مربوط به فاکتور — شامل شناسه محصول و مقدار
@@ -22,6 +27,6 @@ namespace RazySoft.MarketSync.Domain.Entities
         /// </summary>
         public decimal Quantity { get; set; }
 
-        
+
     }
 }

@@ -38,7 +38,7 @@ namespace RazySoft.MarketSync.Core.Services
                 if (await _api.SendPartiesAsync(partyDtos, ct))
                 {
                     foreach (var b in partyDtos)
-                        await _store.MarkPartyAsSyncedAsync(b.Id.ToString(), true, ct);
+                        await _store.MarkPartyAsSyncedAsync(b.LocalId.ToString(), true, ct);
                 }
             }
 
@@ -50,7 +50,7 @@ namespace RazySoft.MarketSync.Core.Services
                 if (await _api.SendProductsAsync(productDtos, ct))
                 {
                     foreach (var p in productDtos)
-                        await _store.MarkProductAsSyncedAsync(p.Id.ToString(), true, ct);
+                        await _store.MarkProductAsSyncedAsync(p.LocalId.ToString(), true, ct);
                 }
             }
 
@@ -62,7 +62,7 @@ namespace RazySoft.MarketSync.Core.Services
                 if (await _api.SendInvoicesAsync(invoiceDtos, ct))
                 {
                     foreach (var inv in invoiceDtos)
-                        await _store.MarkInvoiceAsSyncedAsync(inv.Id.ToString(), true, ct);
+                        await _store.MarkInvoiceAsSyncedAsync(inv.LocalId.ToString(), true, ct);
                 }
             }
 

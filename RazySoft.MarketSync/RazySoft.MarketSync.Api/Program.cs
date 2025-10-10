@@ -7,7 +7,7 @@ using RazySoft.MarketSync.Api.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // DbContext
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<MarketSyncDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // DI

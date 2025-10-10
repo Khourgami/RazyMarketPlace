@@ -66,7 +66,7 @@ namespace RazySoft.MarketSync.Infrastructure.Data
                 result.Add(new Product
                 {
                     Id = reader.GetGuid(reader.GetOrdinal("Id")),
-                    cmFullCode = reader.GetString(reader.GetOrdinal("cmFullCode")),
+                    CmFullCode  = reader.GetString(reader.GetOrdinal("cmFullCode")),
                     Name = reader.GetString(reader.GetOrdinal("Name")),
                     Unit = reader.GetString(reader.GetOrdinal("Unit"))
                 });

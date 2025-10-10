@@ -4,18 +4,33 @@ using RazySoft.MarketSync.Domain.Entities;
 
 namespace RazySoft.MarketSync.Api.Repositories
 {
+    public interface IInvoiceRepository
+    {
+        Task<Invoice?> GetByNormalizedIdAsync(string normalizedId, Guid tenantId, CancellationToken ct = default);
+        Task AddAsync(Invoice entity, CancellationToken ct = default);
+        Task UpdateAsync(Invoice entity, CancellationToken ct = default);
+        Task SaveChangesAsync(CancellationToken ct = default);
+    }
+
     public class InvoiceRepository : IInvoiceRepository
     {
-        private readonly AppDbContext _context;
-        public InvoiceRepository(AppDbContext context) => _context = context;
+        private readonly MarketSyncDbContext _db;
 
-        public async Task<List<Invoice>> GetAllAsync() =>
-            await _context.Invoices.Include(i => i.SaleItems).ToListAsync();
+        public InvoiceRepository(MarketSyncDbContext db) => _db = db;
 
-        public async Task<Invoice?> GetByIdAsync(int id) =>
-            await _context.Invoices.Include(i => i.SaleItems).FirstOrDefaultAsync(i => i.Id == id);
+        public Task<Invoice?> GetByNormalizedIdAsync(string normalizedId, Guid tenantId, CancellationToken ct = default)
+            => _db.Invoices.FirstOrDefaultAsync(i => i.TenantId == tenantId, ct);
 
-        public async Task AddAsync(Invoice invoice) => await _context.Invoices.AddAsync(invoice);
-        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
+        public async Task AddAsync(Invoice entity, CancellationToken ct = default)
+            => await _db.Invoices.AddAsync(entity, ct);
+
+        public Task UpdateAsync(Invoice entity, CancellationToken ct = default)
+        {
+            _db.Invoices.Update(entity);
+            return Task.CompletedTask;
+        }
+
+        public Task SaveChangesAsync(CancellationToken ct = default)
+            => _db.SaveChangesAsync(ct);
     }
 }

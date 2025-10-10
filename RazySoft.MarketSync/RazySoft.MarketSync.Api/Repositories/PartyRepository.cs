@@ -2,37 +2,32 @@
 using RazySoft.MarketSync.Api.Data;
 using RazySoft.MarketSync.Domain.Entities;
 
-namespace RazySoft.MarketSync.Api.Repositories
+public interface IPartyRepository
 {
-    public class PartyRepository : IPartyRepository
+    Task<Party?> GetByNormalizedIdAsync(string normalizedId, Guid tenantId, CancellationToken ct = default);
+    Task AddAsync(Party entity, CancellationToken ct = default);
+    Task UpdateAsync(Party entity, CancellationToken ct = default);
+    Task SaveChangesAsync(CancellationToken ct = default);
+}
+
+public class PartyRepository : IPartyRepository
+{
+    private readonly MarketSyncDbContext _db;
+
+    public PartyRepository(MarketSyncDbContext db) => _db = db;
+
+    public Task<Party?> GetByNormalizedIdAsync(string normalizedId, Guid tenantId, CancellationToken ct = default)
+        => _db.Parties.FirstOrDefaultAsync(p => p.NormalizedLegacyId == normalizedId && p.TenantId == tenantId, ct);
+
+    public async Task AddAsync(Party entity, CancellationToken ct = default)
+        => await _db.Parties.AddAsync(entity, ct);
+
+    public Task UpdateAsync(Party entity, CancellationToken ct = default)
     {
-        private readonly AppDbContext _dbContext;
-
-        public PartyRepository(AppDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        public async Task<Party?> GetByNormalizedIdAsync(int FkColCode, int MoinCode, Guid tenantId, CancellationToken ct = default)
-        {
-            return await _dbContext.Parties
-                .FirstOrDefaultAsync(p => p.FkColCode == FkColCode && p.MoeinCode == MoinCode && p.TenantId == tenantId, ct);
-        }
-
-        public async Task AddAsync(Party party, CancellationToken ct = default)
-        {
-            await _dbContext.Parties.AddAsync(party, ct);
-        }
-
-        public Task UpdateAsync(Party party, CancellationToken ct = default)
-        {
-            _dbContext.Parties.Update(party);
-            return Task.CompletedTask;
-        }
-
-        public async Task SaveChangesAsync(CancellationToken ct = default)
-        {
-            await _dbContext.SaveChangesAsync(ct);
-        }
+        _db.Parties.Update(entity);
+        return Task.CompletedTask;
     }
+
+    public Task SaveChangesAsync(CancellationToken ct = default)
+        => _db.SaveChangesAsync(ct);
 }

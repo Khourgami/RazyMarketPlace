@@ -1,14 +1,32 @@
-﻿using RazySoft.MarketSync.Domain.Entities;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace RazySoft.MarketSync.Domain.DTOs
 {
-    public class ProductDto
+    /// <summary>
+    /// DTO برای محصولات.
+    /// کلید شناسایی در سیستم قدیمی: cmFullCode
+    /// </summary>
+    public record ProductDto : SyncDtoBase
     {
-        // Legacy Id
-        public Guid Id { get; set; }
-        public string cmFullCode {  get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public string Unit { get; set; } = string.Empty;
-        
+        /// <summary>
+        /// cmFullCode (کلید شناسایی محصول در سیستم قدیمی).
+        /// این فیلد پایهٔ NormalizedLegacyId هم میتواند باشد.
+        /// </summary>
+        [JsonPropertyName("cmFullCode")]
+        public string CmFullCode { get; init; } = string.Empty;
+
+        /// <summary>
+        /// نام محصول
+        /// </summary>
+        [JsonPropertyName("name")]
+        public string Name { get; init; } = string.Empty;
+
+        /// <summary>
+        /// واحد (مثل "kg", "pcs", "m")
+        /// </summary>
+        [JsonPropertyName("unit")]
+        public string Unit { get; init; } = string.Empty;
+        public Guid PartyId { get; set; }
     }
 }

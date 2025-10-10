@@ -21,13 +21,13 @@ namespace RazySoft.MarketSync.Api.Controllers.Sync
         }
 
         [HttpPost("sync")]
-        public async Task<IActionResult> SyncParties([FromBody] IEnumerable<Party> parties, CancellationToken ct)
+        public async Task<IActionResult> SyncParties([FromBody] IEnumerable<PartyDto> parties, CancellationToken ct)
         {
             var validation = ValidateHeaders();
             if (validation is BadRequestObjectResult)
                 return validation;
 
-            await _partyService.SaveReceivedPartiesAsync(parties!, TenantId!, DeviceId!, ct);
+            await _partyService.SyncAsync(parties!, TenantId!, DeviceId!, ct);
             return Ok(new { Message = "Parties synced successfully", Count = parties?.Count() ?? 0 });
         }
     }

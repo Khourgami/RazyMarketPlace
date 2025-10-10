@@ -1,15 +1,35 @@
-﻿using RazySoft.MarketSync.Domain.DTOs;
-using System;
+﻿using System;
 
 namespace RazySoft.MarketSync.Domain.Entities
 {
+    /// <summary>
+    /// موجودیت محصول — بر اساس cmFullCode در سیستم قدیمی
+    /// </summary>
     public class Product : BaseEntity
     {
-        public string cmFullCode { get; set; } = string.Empty;
+        /// <summary>
+        /// شناسه نرمال‌شده (معمولاً cmFullCode)
+        /// </summary>
+        public string NormalizedLegacyId { get; set; } = string.Empty;
+
+        /// <summary>
+        /// کد محصول در سیستم قدیمی
+        /// </summary>
+        public string CmFullCode { get; set; } = string.Empty;
+
+        /// <summary>
+        /// نام محصول
+        /// </summary>
         public string Name { get; set; } = string.Empty;
-        public string Unit { get; set; } = string.Empty; // Kg, Meter, Count
+
+        /// <summary>
+        /// واحد اندازه‌گیری
+        /// </summary>
+        public string Unit { get; set; } = string.Empty;
+
+        /// <summary>
+        /// PartyId برای اتصال داده‌ها به کلاینت خاص
+        /// </summary>
         public Guid PartyId { get; set; }
-        public Party Party { get; set; }
-        public ICollection<SaleItem> SaleItems { get; set; } = new List<SaleItem>();
     }
 }

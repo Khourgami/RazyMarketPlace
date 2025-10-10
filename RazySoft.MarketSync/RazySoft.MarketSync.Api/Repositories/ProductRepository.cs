@@ -4,14 +4,33 @@ using RazySoft.MarketSync.Domain.Entities;
 
 namespace RazySoft.MarketSync.Api.Repositories
 {
+    public interface IProductRepository
+    {
+        Task<Product?> GetByNormalizedIdAsync(string normalizedId, Guid tenantId, CancellationToken ct = default);
+        Task AddAsync(Product entity, CancellationToken ct = default);
+        Task UpdateAsync(Product entity, CancellationToken ct = default);
+        Task SaveChangesAsync(CancellationToken ct = default);
+    }
+
     public class ProductRepository : IProductRepository
     {
-        private readonly AppDbContext _context;
-        public ProductRepository(AppDbContext context) => _context = context;
+        private readonly MarketSyncDbContext _db;
 
-        public async Task<List<Product>> GetAllAsync() => await _context.Products.ToListAsync();
-        public async Task<Product?> GetByIdAsync(int id) => await _context.Products.FindAsync(id);
-        public async Task AddAsync(Product product) => await _context.Products.AddAsync(product);
-        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
+        public ProductRepository(MarketSyncDbContext db) => _db = db;
+
+        public Task<Product?> GetByNormalizedIdAsync(string normalizedId, Guid tenantId, CancellationToken ct = default)
+            => _db.Products.FirstOrDefaultAsync(p => p.NormalizedLegacyId == normalizedId && p.TenantId == tenantId, ct);
+
+        public async Task AddAsync(Product entity, CancellationToken ct = default)
+            => await _db.Products.AddAsync(entity, ct);
+
+        public Task UpdateAsync(Product entity, CancellationToken ct = default)
+        {
+            _db.Products.Update(entity);
+            return Task.CompletedTask;
+        }
+
+        public Task SaveChangesAsync(CancellationToken ct = default)
+            => _db.SaveChangesAsync(ct);
     }
 }

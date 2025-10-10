@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RazySoft.MarketSync.Service\RazySoft.MarketSync.Service.csproj" />
     <ProjectReference Include="..\RazySoft.MarketSync\RazySoft.MarketSync.Service\RazySoft.MarketSync.Service.csproj" />
   </ItemGroup>
 

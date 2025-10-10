@@ -1,22 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RazySoft.MarketSync.Domain.Entities
 {
-    public class BaseEntity
+    /// <summary>
+    /// کلاس پایه برای تمام Entityها — دارای Id از نوع Guid و اطلاعات سینک.
+    /// </summary>
+    public abstract class BaseEntity
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
-        // Metadata for source (optional, useful for change detection)
+        public Guid TenantId { get; set; }
+        /// <summary>
+        /// مشخص می‌کند آیا این رکورد از سمت ویندوز سرویس به سرور سینک شده یا نه.
+        /// </summary>
         public bool IsSynced { get; set; } = false;
-        public DateTimeOffset LastModified { get; set; } = DateTime.UtcNow;
-        public DateTime? SourceLastModified { get; set; }
 
-        // Optional: data hash (SHA256) to detect content changes (nullable)
-        public byte[]? DataHash { get; set; }
-
+        /// <summary>
+        /// زمان آخرین تغییر یا بروزرسانی رکورد
+        /// </summary>
+        public DateTime LastModified { get; set; } = DateTime.UtcNow;
     }
 }

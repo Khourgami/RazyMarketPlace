@@ -3,39 +3,38 @@ using RazySoft.Market.Admin.Domain.Common;
 
 namespace RazySoft.Market.Admin.Domain.Entities
 {
-    /// <summary>
-    /// Represents an account (company or person) from MoinAcc table.
-    /// We don’t distinguish between individual and organization here.
-    /// </summary>
     public class Party : BaseEntity
     {
         /// <summary>
-        /// Composite key from legacy DB (fk_ColCode + MoeinCode).
+        /// کلید ترکیبی از سیستم قدیمی — برای ارتباط با داده‌های Legacy
         /// </summary>
-        public int FkColCode { get; set; }       // fk_ColCode
-        public int MoeinCode { get; set; }       // MoeinCode
+        public int FkColCode { get; set; }
+        public int MoeinCode { get; set; }
 
         /// <summary>
-        /// Name of the account holder (company or person).
+        /// کد شناسایی ملی یا کد ثبت شرکت (ممکن است null باشد)
+        /// </summary>
+        public string? NationalId { get; set; }
+
+        /// <summary>
+        /// نام فرد یا شرکت
         /// </summary>
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// NationalId or Company RegisterCode.
+        /// شماره تلفن یا موبایل
         /// </summary>
-        public string? NationalId { get; set; }
-
-        //public string? Phone { get; set; }
-
-        //public string? Address { get; set; }
-
-        public Guid TenantId { get; set; }
-
-        public Tenant Tenant { get; set; } = null!;
+        public string? Mobile { get; set; }
 
         /// <summary>
-        /// Total quantity sold (aggregated, not per invoice).
+        /// آدرس
         /// </summary>
-        //public decimal TotalQuantitySold { get; set; }
+        public string? Address { get; set; }
+
+        /// <summary>
+        /// شناسه نرمال‌شده برای ارتباط با داده‌های legacy (مثلاً "fk-moein")
+        /// </summary>
+        public string NormalizedLegacyId { get; set; } = string.Empty;
     }
+
 }

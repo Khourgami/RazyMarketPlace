@@ -5,18 +5,29 @@ namespace RazySoft.Market.Admin.Domain.Entities
 {
     public class Product : BaseEntity
     {
-        public string LegacyId { get; set; } = string.Empty;
-
+        /// <summary>
+        /// شناسه نرمال‌شده (معمولاً cmFullCode)
+        /// </summary>
         public string NormalizedLegacyId { get; set; } = string.Empty;
 
-        public string Code { get; set; } = string.Empty;
+        /// <summary>
+        /// کد محصول در سیستم قدیمی
+        /// </summary>
+        public string CmFullCode { get; set; } = string.Empty;
 
+        /// <summary>
+        /// نام محصول
+        /// </summary>
         public string Name { get; set; } = string.Empty;
 
-        public string Unit { get; set; } = string.Empty; // e.g. kg, pcs
+        /// <summary>
+        /// واحد اندازه‌گیری
+        /// </summary>
+        public string Unit { get; set; } = string.Empty;
 
-        public Guid TenantId { get; set; }
-
-        public Tenant Tenant { get; set; } = null!;
+        /// <summary>
+        /// PartyId برای اتصال داده‌ها به کلاینت خاص
+        /// </summary>
+        public Guid PartyId { get; set; }
     }
 }
