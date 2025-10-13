@@ -1,0 +1,14 @@
+﻿@page "/"
+@namespace RazySoft.Market.Admin.Web.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!-- This file is the host for the Blazor Server application.
+     It links the MVC layout (_Layout.cshtml) with the Blazor router (App.razor). -->
+@{
+    // Specifies the outer MVC/Razor Pages layout for this Blazor host page.
+    Layout = "_Layout";
+}
+
+<!-- The App component is the root component of your Blazor application.
+     render-mode="ServerPrerendered" ensures the initial HTML is rendered server-side for performance. -->
+<component type="typeof(App)" render-mode="ServerPrerendered" />

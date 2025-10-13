@@ -1,0 +1,14 @@
+﻿<div class="card bg-light text-center p-5 my-5">
+    <div class="card-body">
+        <h5 class="card-title text-muted">No @EntityName Found</h5>
+        <p class="card-text text-secondary">@Message</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string EntityName { get; set; } = "Records";
+
+    [Parameter]
+    public string Message { get; set; } = "Try adjusting your filters or search terms.";
+}

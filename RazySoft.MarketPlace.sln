@@ -23,6 +23,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.Market.Admin.Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.MarketSync.DebugService", "RazySoft.MarketSync\RazySoft.MarketSync.DebugService\RazySoft.MarketSync.DebugService.csproj", "{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.Market.Admin.Application", "RazySoftMarketAdmin\RazySoft.Market.Admin.Application\RazySoft.Market.Admin.Application.csproj", "{8CC3CEDC-6118-4D99-83CE-2A128042AD74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.Market.Admin.Infrastructure", "RazySoftMarketAdmin\RazySoft.Market.Admin.Infrastructure\RazySoft.Market.Admin.Infrastructure.csproj", "{0ECF1D69-5B66-425A-A74A-62872BAC01F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazySoft.Market.Admin.Web", "RazySoftMarketAdmin\RazySoft.Market.Admin.Web\RazySoft.Market.Admin.Web.csproj", "{F72F6CF2-4242-4A94-B958-199DDF8A9C9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +67,18 @@ Global
 		{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CC3CEDC-6118-4D99-83CE-2A128042AD74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CC3CEDC-6118-4D99-83CE-2A128042AD74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CC3CEDC-6118-4D99-83CE-2A128042AD74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CC3CEDC-6118-4D99-83CE-2A128042AD74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ECF1D69-5B66-425A-A74A-62872BAC01F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ECF1D69-5B66-425A-A74A-62872BAC01F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ECF1D69-5B66-425A-A74A-62872BAC01F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ECF1D69-5B66-425A-A74A-62872BAC01F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F72F6CF2-4242-4A94-B958-199DDF8A9C9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F72F6CF2-4242-4A94-B958-199DDF8A9C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F72F6CF2-4242-4A94-B958-199DDF8A9C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F72F6CF2-4242-4A94-B958-199DDF8A9C9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +92,9 @@ Global
 		{EBED0416-A95C-4B6A-A079-13FF3E7B0B00} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{B245EB75-70E1-40A6-4A62-1F32D9D485D0} = {FD006C26-41AC-44E0-92AC-48E2A08F19D2}
 		{5FE5C390-8BA8-1200-A388-DAA4DEC6D2CE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{8CC3CEDC-6118-4D99-83CE-2A128042AD74} = {FD006C26-41AC-44E0-92AC-48E2A08F19D2}
+		{0ECF1D69-5B66-425A-A74A-62872BAC01F3} = {FD006C26-41AC-44E0-92AC-48E2A08F19D2}
+		{F72F6CF2-4242-4A94-B958-199DDF8A9C9A} = {FD006C26-41AC-44E0-92AC-48E2A08F19D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4B3B2CBD-206D-4BCE-A97B-2DF91696A8FF}

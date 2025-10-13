@@ -1,0 +1,99 @@
+﻿@page "/products"
+@using RazySoft.Market.Admin.Application.DTOs
+@using RazySoft.Market.Admin.Web.Services.UiContracts
+@inject IProductUiService ProductUiService
+
+<h2 class="mb-4">Product Catalog</h2>
+
+@* <div class="row mb-3">
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search by name or CM Code..." @bind="SearchTerm" @bind:event="oninput" />
+            <button class="btn btn-primary" type="button" @onclick="SearchProducts">Search</button>
+        </div>
+    </div>
+</div> *@
+
+@if (_isLoading)
+{
+    <LoadingSpinner />
+}
+else if (!_products.Any() && _hasLoaded)
+{
+    <EmptyState EntityName="Products" Message="No products match the search criteria." />
+}
+else if (_errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong> @_errorMessage
+    </div>
+}
+else
+{
+    <EntityTable Items="_products" DetailsRoute="Products" />
+
+    <!-- Simple Pagination -->
+    <nav>
+        <ul class="pagination">
+            <li class="page-item @(_pageIndex == 1 ? "disabled" : "")">
+                <button class="page-link" @onclick="@(() => ChangePage(_pageIndex - 1))">Previous</button>
+            </li>
+            <li class="page-item active"><span class="page-link">@_pageIndex</span></li>
+            <li class="page-item @(_products.Count < _pageSize ? "disabled" : "")">
+                <button class="page-link" @onclick="@(() => ChangePage(_pageIndex + 1))">Next</button>
+            </li>
+        </ul>
+    </nav>
+}
+
+@code {
+    private IReadOnlyList<ProductDto> _products = new List<ProductDto>();
+    private bool _isLoading = true;
+    private bool _hasLoaded = false;
+    private string? _errorMessage;
+    private int _pageIndex = 1;
+    private const int _pageSize = 10;
+    private string _searchTerm = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProductsAsync();
+    }
+
+    private async Task LoadProductsAsync()
+    {
+        _isLoading = true;
+        _errorMessage = null;
+        _products = new List<ProductDto>();
+        StateHasChanged();
+
+        var response = await ProductUiService.GetProductsAsync(_searchTerm, _pageIndex, _pageSize);
+
+        if (response.IsSuccess && response.Data != null)
+        {
+            _products = response.Data.ToList();
+        }
+        else
+        {
+            _errorMessage = response.ErrorMessage;
+        }
+
+        _isLoading = false;
+        _hasLoaded = true;
+    }
+
+    private async Task ChangePage(int newIndex)
+    {
+        if (newIndex >= 1)
+        {
+            _pageIndex = newIndex;
+            await LoadProductsAsync();
+        }
+    }
+
+    private async Task SearchProducts()
+    {
+        _pageIndex = 1;
+        await LoadProductsAsync();
+    }
+}

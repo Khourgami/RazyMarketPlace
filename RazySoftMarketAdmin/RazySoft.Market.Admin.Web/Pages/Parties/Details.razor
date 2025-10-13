@@ -1,0 +1,106 @@
+﻿@page "/parties/{Id:guid}"
+@using RazySoft.Market.Admin.Application.DTOs
+@using RazySoft.Market.Admin.Web.Services.UiContracts
+@inject IPartyUiService PartyUiService
+@inject IInvoiceUiService InvoiceUiService
+
+<h2 class="mb-4">Party Details</h2>
+
+@if (_isLoading)
+{
+    <LoadingSpinner />
+}
+else if (_errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong> @_errorMessage
+    </div>
+}
+else if (_party != null)
+{
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">@_party.Name Details</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">@_party.Id</dd>
+
+                <dt class="col-sm-3">Legacy ID</dt>
+                <dd class="col-sm-9">@_party.NormalizedLegacyId</dd>
+
+                <dt class="col-sm-3">National ID</dt>
+                <dd class="col-sm-9">@(_party.NationalId ?? "N/A")</dd>
+
+                <dt class="col-sm-3">Mobile</dt>
+                <dd class="col-sm-9">@(_party.Mobile ?? "N/A")</dd>
+
+                <dt class="col-sm-3">Created At</dt>
+                <dd class="col-sm-9">@_party.CreatedAt.ToString("g")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <h3 class="mt-5 mb-3">Related Invoices</h3>
+
+    @if (_invoicesLoading)
+    {
+        <LoadingSpinner />
+    }
+    else if (!_relatedInvoices.Any())
+    {
+        <EmptyState EntityName="Invoices" Message="This party has no recorded invoices." />
+    }
+    else
+    {
+        <EntityTable Items="_relatedInvoices as IReadOnlyList<InvoiceDto>" DetailsRoute="Invoices" />
+    }
+}
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private PartyDto? _party;
+    private IEnumerable<InvoiceDto> _relatedInvoices = new List<InvoiceDto>();
+    private bool _isLoading = true;
+    private bool _invoicesLoading = true;
+    private string? _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // 1. Load Party Details
+        var partyResponse = await PartyUiService.GetPartyByIdAsync(Id);
+
+        if (partyResponse.IsSuccess && partyResponse.Data != null)
+        {
+            _party = partyResponse.Data;
+            _isLoading = false;
+        }
+        else
+        {
+            _errorMessage = partyResponse.ErrorMessage;
+            _isLoading = false;
+            return;
+        }
+
+        // 2. Load Related Invoices
+        _invoicesLoading = true;
+        StateHasChanged(); // Show spinner for invoices
+
+        var invoicesResponse = await InvoiceUiService.GetInvoicesByPartyIdAsync(Id);
+
+        if (invoicesResponse.IsSuccess && invoicesResponse.Data != null)
+        {
+            _relatedInvoices = invoicesResponse.Data;
+        }
+        else
+        {
+            // Optionally set a separate error message for the related list
+            Console.WriteLine($"Error fetching invoices: {invoicesResponse.ErrorMessage}");
+        }
+
+        _invoicesLoading = false;
+    }
+}

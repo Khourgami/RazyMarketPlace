@@ -1,0 +1,72 @@
+﻿@page "/products/{Id:guid}"
+@using RazySoft.Market.Admin.Application.DTOs
+@using RazySoft.Market.Admin.Web.Services.UiContracts
+@inject IProductUiService ProductUiService
+
+<h2 class="mb-4">Product Details</h2>
+
+@if (_isLoading)
+{
+    <LoadingSpinner />
+}
+else if (_errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong> @_errorMessage
+    </div>
+}
+else if (_product != null)
+{
+    <!-- Product Details Card -->
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Product: @_product.Name</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">@_product.Id</dd>
+
+                <dt class="col-sm-3">CM Full Code</dt>
+                <dd class="col-sm-9">@_product.CmFullCode</dd>
+
+                <dt class="col-sm-3">Unit of Measure</dt>
+                <dd class="col-sm-9">@_product.Unit</dd>
+
+                <dt class="col-sm-3">Owner Party</dt>
+                <dd class="col-sm-9">
+                    <a href="/parties/@_product.PartyId" class="text-primary">Party Name</a>
+                    (<code>@_product.PartyId</code>)
+                </dd>
+
+                <dt class="col-sm-3">Created At</dt>
+                <dd class="col-sm-9">@_product.CreatedAt.ToString("g")</dd>
+            </dl>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private ProductDto? _product;
+    private bool _isLoading = true;
+    private string? _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await ProductUiService.GetProductByIdAsync(Id);
+
+        if (response.IsSuccess && response.Data != null)
+        {
+            _product = response.Data;
+        }
+        else
+        {
+            _errorMessage = response.ErrorMessage;
+        }
+
+        _isLoading = false;
+    }
+}

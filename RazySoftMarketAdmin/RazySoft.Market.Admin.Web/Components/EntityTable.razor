@@ -1,0 +1,22 @@
+﻿@typeparam TItem
+
+<table class="table table-sm table-hover">
+    <thead>
+        @Header
+    </thead>
+    <tbody>
+        @if (Items != null)
+        {
+            foreach (var item in Items)
+            {
+                <tr>@RowTemplate(item)</tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter] public IEnumerable<TItem>? Items { get; set; }
+    [Parameter] public RenderFragment? Header { get; set; }
+    [Parameter] public RenderFragment<TItem>? RowTemplate { get; set; }
+}

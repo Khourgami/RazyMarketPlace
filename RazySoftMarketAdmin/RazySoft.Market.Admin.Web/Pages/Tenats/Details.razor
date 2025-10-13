@@ -1,0 +1,111 @@
+﻿@page "/tenants/{Id:guid}"
+@using RazySoft.Market.Admin.Application.DTOs
+@using RazySoft.Market.Admin.Web.Services.UiContracts
+@inject ITenantUiService TenantUiService
+
+<h2 class="mb-4">Tenant Details</h2>
+
+@if (_isLoading)
+{
+    <LoadingSpinner />
+}
+else if (_errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong> @_errorMessage
+    </div>
+}
+else if (_tenant != null)
+{
+    <!-- Tenant Details Card -->
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Tenant: @_tenant.Name (@_tenant.Identifier)</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">@_tenant.Id</dd>
+
+                <dt class="col-sm-3">Contact Email</dt>
+                <dd class="col-sm-9">@(_tenant.Contact ?? "N/A")</dd>
+
+                <dt class="col-sm-3">Status</dt>
+                <dd class="col-sm-9">
+                    <span class="badge @(_tenant.IsActive ? "bg-success" : "bg-danger")">
+                        @(_tenant.IsActive ? "Active" : "Disabled")
+                    </span>
+                </dd>
+
+                @* <dt class="col-sm-3">Total Devices</dt>
+                <dd class="col-sm-9">@_tenant.DeviceCount</dd> *@
+
+                <dt class="col-sm-3">Created At</dt>
+                <dd class="col-sm-9">@_tenant.CreatedAt.ToString("g")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Related Devices Section -->
+    <h3 class="mt-5 mb-3">Associated Devices</h3>
+
+    @if (_devicesLoading)
+    {
+        <LoadingSpinner />
+    }
+    else if (!_devices.Any())
+    {
+        <EmptyState EntityName="Devices" Message="No devices are registered for this tenant." />
+    }
+    else
+    {
+        <!-- Using EntityTable to show devices. Devices don't have a direct details page defined. -->
+        <EntityTable Items="_devices" DetailsRoute="" />
+    }
+}
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private TenantDto? _tenant;
+    private IReadOnlyList<DeviceDto> _devices = new List<DeviceDto>();
+    private bool _isLoading = true;
+    private bool _devicesLoading = true;
+    private string? _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // 1. Load Tenant Details
+        var tenantResponse = await TenantUiService.GetTenantByIdAsync(Id);
+
+        if (tenantResponse.IsSuccess && tenantResponse.Data != null)
+        {
+            _tenant = tenantResponse.Data;
+            _isLoading = false;
+        }
+        else
+        {
+            _errorMessage = tenantResponse.ErrorMessage;
+            _isLoading = false;
+            return;
+        }
+
+        // 2. Load Related Devices
+        _devicesLoading = true;
+        StateHasChanged();
+
+        var devicesResponse = await TenantUiService.GetTenantDevicesAsync(Id);
+
+        if (devicesResponse.IsSuccess && devicesResponse.Data != null)
+        {
+            _devices = devicesResponse.Data.ToList();
+        }
+        else
+        {
+            Console.WriteLine($"Error fetching devices: {devicesResponse.ErrorMessage}");
+        }
+
+        _devicesLoading = false;
+    }
+}

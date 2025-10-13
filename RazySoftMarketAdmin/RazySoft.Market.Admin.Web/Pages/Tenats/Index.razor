@@ -1,0 +1,84 @@
+﻿@page "/tenants"
+@using RazySoft.Market.Admin.Application.DTOs
+@using RazySoft.Market.Admin.Web.Services.UiContracts
+@inject ITenantUiService TenantUiService
+
+<h2 class="mb-4">Tenant Management</h2>
+
+@if (_isLoading)
+{
+    <LoadingSpinner />
+}
+else if (!_tenants.Any() && _hasLoaded)
+{
+    <EmptyState EntityName="Tenants" Message="No active tenants found." />
+}
+else if (_errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong> @_errorMessage
+    </div>
+}
+else
+{
+    <p class="text-muted">Showing page @_pageIndex of active system tenants.</p>
+    <EntityTable Items="_tenants" DetailsRoute="Tenants" />
+
+    <!-- Simple Pagination -->
+    <nav>
+        <ul class="pagination">
+            <li class="page-item @(_pageIndex == 1 ? "disabled" : "")">
+                <button class="page-link" @onclick="@(() => ChangePage(_pageIndex - 1))">Previous</button>
+            </li>
+            <li class="page-item active"><span class="page-link">@_pageIndex</span></li>
+            <li class="page-item @(_tenants.Count < _pageSize ? "disabled" : "")">
+                <button class="page-link" @onclick="@(() => ChangePage(_pageIndex + 1))">Next</button>
+            </li>
+        </ul>
+    </nav>
+}
+
+@code {
+    private IReadOnlyList<TenantDto> _tenants = new List<TenantDto>();
+    private bool _isLoading = true;
+    private bool _hasLoaded = false;
+    private string? _errorMessage;
+    private int _pageIndex = 1;
+    private const int _pageSize = 10;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTenantsAsync();
+    }
+
+    private async Task LoadTenantsAsync()
+    {
+        _isLoading = true;
+        _errorMessage = null;
+        _tenants = new List<TenantDto>();
+        StateHasChanged();
+
+        var response = await TenantUiService.GetTenantsAsync(_pageIndex, _pageSize);
+
+        if (response.IsSuccess && response.Data != null)
+        {
+            _tenants = response.Data.ToList();
+        }
+        else
+        {
+            _errorMessage = response.ErrorMessage;
+        }
+
+        _isLoading = false;
+        _hasLoaded = true;
+    }
+
+    private async Task ChangePage(int newIndex)
+    {
+        if (newIndex >= 1)
+        {
+            _pageIndex = newIndex;
+            await LoadTenantsAsync();
+        }
+    }
+}

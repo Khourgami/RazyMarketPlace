@@ -1,0 +1,67 @@
+﻿@typeparam TItem
+@if (Items != null && Items.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    @foreach (var property in Properties)
+                    {
+                        <th>@property.Name</th>
+                    }
+                    @if (HasDetailsLink)
+                    {
+                        <th>Actions</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Items)
+                {
+                    <tr>
+                        @foreach (var property in Properties)
+                        {
+                            <td>@(property.GetValue(item))</td>
+                        }
+                        @if (HasDetailsLink)
+                        {
+                            <td>
+                                <a href="@($"/{(DetailsRoute).ToLower()}/{GetEntityId(item)}")" class="btn btn-sm btn-outline-info">Details</a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public IReadOnlyList<TItem>? Items { get; set; }
+
+    [Parameter]
+    public string DetailsRoute { get; set; } = string.Empty;
+
+    private IEnumerable<System.Reflection.PropertyInfo> Properties { get; set; } = Enumerable.Empty<System.Reflection.PropertyInfo>();
+
+    private bool HasDetailsLink => !string.IsNullOrEmpty(DetailsRoute);
+
+    protected override void OnInitialized()
+    {
+        // Use reflection to get properties for column headers and data
+        Properties = typeof(TItem)
+            .GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+            .Where(p => p.PropertyType.IsPrimitive || p.PropertyType == typeof(string) || p.PropertyType == typeof(Guid) || p.PropertyType == typeof(DateTimeOffset) || p.PropertyType == typeof(bool) || p.PropertyType == typeof(decimal));
+    }
+
+    private Guid GetEntityId(TItem item)
+    {
+        var idProperty = typeof(TItem).GetProperty("Id");
+        if (idProperty != null && idProperty.PropertyType == typeof(Guid))
+        {
+            return (Guid)idProperty.GetValue(item)!;
+        }
+        return Guid.Empty; // Fallback
+    }
+}

@@ -1,0 +1,114 @@
+﻿@page "/invoices"
+@using RazySoft.Market.Admin.Application.DTOs
+@using RazySoft.Market.Admin.Web.Services.UiContracts
+@inject IInvoiceUiService InvoiceUiService
+
+<h2 class="mb-4">Invoice Ledger</h2>
+
+<div class="card p-3 mb-4 shadow-sm">
+    <h5 class="card-title">Filter by Date</h5>
+    <div class="row g-3">
+        <div class="col-md-5">
+            <label for="startDate" class="form-label">Start Date</label>
+            <input type="date" class="form-control" id="startDate" @bind="StartDate" />
+        </div>
+        <div class="col-md-5">
+            <label for="endDate" class="form-label">End Date</label>
+            <input type="date" class="form-control" id="endDate" @bind="EndDate" />
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button class="btn btn-info w-100" type="button" @onclick="SearchInvoices">Filter</button>
+        </div>
+    </div>
+</div>
+
+@if (_isLoading)
+{
+    <LoadingSpinner />
+}
+else if (!_invoices.Any() && _hasLoaded)
+{
+    <EmptyState EntityName="Invoices" Message="No invoices found in the selected date range." />
+}
+else if (_errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong> @_errorMessage
+    </div>
+}
+else
+{
+    <EntityTable Items="_invoices" DetailsRoute="Invoices" />
+
+    <!-- Simple Pagination -->
+    <nav>
+        <ul class="pagination">
+            <li class="page-item @(_pageIndex == 1 ? "disabled" : "")">
+                <button class="page-link" @onclick="@(() => ChangePage(_pageIndex - 1))">Previous</button>
+            </li>
+            <li class="page-item active"><span class="page-link">@_pageIndex</span></li>
+            <li class="page-item @(_invoices.Count < _pageSize ? "disabled" : "")">
+                <button class="page-link" @onclick="@(() => ChangePage(_pageIndex + 1))">Next</button>
+            </li>
+        </ul>
+    </nav>
+}
+
+@code {
+    private IReadOnlyList<InvoiceDto> _invoices = new List<InvoiceDto>();
+    private bool _isLoading = true;
+    private bool _hasLoaded = false;
+    private string? _errorMessage;
+    private int _pageIndex = 1;
+    private const int _pageSize = 10;
+
+    // Bind to nullable DateTime objects for optional filtering
+    private DateTime? StartDate { get; set; } = null;
+    private DateTime? EndDate { get; set; } = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Default to loading all for MVP if no dates are set initially
+        await LoadInvoicesAsync();
+    }
+
+    private async Task LoadInvoicesAsync()
+    {
+        _isLoading = true;
+        _errorMessage = null;
+        _invoices = new List<InvoiceDto>();
+        StateHasChanged();
+
+        DateTimeOffset? start = StartDate.HasValue ? new DateTimeOffset(StartDate.Value) : (DateTimeOffset?)null;
+        DateTimeOffset? end = EndDate.HasValue ? new DateTimeOffset(EndDate.Value) : (DateTimeOffset?)null;
+
+        var response = await InvoiceUiService.GetInvoicesAsync(start, end, _pageIndex, _pageSize);
+
+        if (response.IsSuccess && response.Data != null)
+        {
+            _invoices = response.Data.ToList();
+        }
+        else
+        {
+            _errorMessage = response.ErrorMessage;
+        }
+
+        _isLoading = false;
+        _hasLoaded = true;
+    }
+
+    private async Task ChangePage(int newIndex)
+    {
+        if (newIndex >= 1)
+        {
+            _pageIndex = newIndex;
+            await LoadInvoicesAsync();
+        }
+    }
+
+    private async Task SearchInvoices()
+    {
+        _pageIndex = 1; // Reset to first page on new filter/search
+        await LoadInvoicesAsync();
+    }
+}
